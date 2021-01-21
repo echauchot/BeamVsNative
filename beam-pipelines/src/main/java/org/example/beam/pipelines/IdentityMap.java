@@ -5,7 +5,7 @@ import org.apache.beam.sdk.transforms.PTransform;
 import org.apache.beam.sdk.transforms.ParDo;
 import org.apache.beam.sdk.values.PCollection;
 
-public class IdentityPardo extends PTransform<PCollection<String>, PCollection<String>> {
+public class IdentityMap extends PTransform<PCollection<String>, PCollection<String>> {
 
   @Override
   public PCollection<String> expand(PCollection<String> input) {

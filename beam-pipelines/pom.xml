@@ -55,25 +55,21 @@
         <dependency>
           <groupId>org.apache.beam</groupId>
           <artifactId>beam-runners-spark</artifactId>
-          <version>${beam.version}</version>
           <scope>runtime</scope>
         </dependency>
         <dependency>
           <groupId>org.apache.spark</groupId>
-          <artifactId>spark-sql_2.11</artifactId>
-          <version>${spark.version}</version>
+          <artifactId>spark-sql_2.12</artifactId>
           <scope>runtime</scope>
         </dependency>
         <dependency>
           <groupId>org.apache.spark</groupId>
-          <artifactId>spark-streaming_2.11</artifactId>
-          <version>${spark.version}</version>
+          <artifactId>spark-streaming_2.12</artifactId>
           <scope>runtime</scope>
         </dependency>
         <dependency>
           <groupId>com.fasterxml.jackson.module</groupId>
-          <artifactId>jackson-module-scala_2.11</artifactId>
-          <version>${jackson.version}</version>
+          <artifactId>jackson-module-scala_2.12</artifactId>
           <scope>runtime</scope>
         </dependency>
       </dependencies>
@@ -86,7 +82,6 @@
         <dependency>
           <groupId>org.apache.beam</groupId>
           <artifactId>beam-runners-spark</artifactId>
-          <version>${beam.version}</version>
           <scope>runtime</scope>
         </dependency>
         <dependency>

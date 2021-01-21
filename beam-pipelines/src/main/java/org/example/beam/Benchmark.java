@@ -45,11 +45,12 @@ public class Benchmark {
     Pipeline pipeline = Pipeline.create(pipelineOptions);
     PCollection<String> input = pipeline.apply("ReadFromGDELTFile", TextIO.read().from(INPUT_FILE));
     input.apply(pipelineToRun, instanciatePTransform(pipelineToRun));
-    LOG.info("Benchmark starting on Beam {} runner", pipelineOptions.getRunner());
+    final String runnerName = pipelineOptions.getRunner().getSimpleName();
+    LOG.info("Benchmark starting on Beam {} runner", runnerName);
     final long start = System.currentTimeMillis();
     pipeline.run();
     final long end = System.currentTimeMillis();
-    LOG.info("Pipeline {} ran in {} s on Beam {} runner", pipelineToRun, (end - start) / 1000, pipelineOptions.getRunner());
+    LOG.info("Pipeline {} ran in {} s on Beam {} runner", pipelineToRun, (end - start) / 1000, runnerName);
   }
 
   public interface Options extends PipelineOptions {

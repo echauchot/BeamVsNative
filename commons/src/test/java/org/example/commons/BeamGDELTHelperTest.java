@@ -1,8 +1,7 @@
-package org.example.beam.pipelines;
+package org.example.commons;
 
 import static org.junit.Assert.assertEquals;
 
-import org.example.commons.GDELTHelper;
 import org.junit.Test;
 
 public class BeamGDELTHelperTest {

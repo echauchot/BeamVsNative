@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.spark.SparkConf;
+import org.apache.spark.SparkEnv;
 import org.apache.spark.api.java.AbstractJavaRDDLike;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -71,6 +72,7 @@ public class Benchmark {
     final long start = System.currentTimeMillis();
     resultRdd.foreach(ignored ->{});
     final long end = System.currentTimeMillis();
+    sparkContext.stop();
     final long runtime = (end - start) / 1000;
     LOG.info("Pipeline {} ran in {} s on Spark", pipelineToRun, runtime);
     BenchmarkHelper.logResultsToFile("native", "spark", pipelineToRun, inputFile, runtime, outputDir);

@@ -12,6 +12,7 @@ import org.apache.beam.vendor.grpc.v1p26p0.com.google.common.base.Strings;
 import org.example.beam.pipelines.IdentityMap;
 import org.example.beam.pipelines.SimpleCombinePerKey;
 import org.example.beam.pipelines.SimpleGroupByKey;
+import org.example.commons.BenchmarkHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +47,11 @@ public class Benchmark {
       throw new RuntimeException("Please specify a valid GDELT REDUCED input file");
     }
 
+    final String outputDir = pipelineOptions.getOutputDir();
+    if (Strings.isNullOrEmpty(outputDir)){
+      throw new RuntimeException("Please specify a valid results output directory");
+    }
+
     Pipeline pipeline = Pipeline.create(pipelineOptions);
     PCollection<String> input = pipeline.apply("ReadFromGDELTFile", TextIO.read().from(inputFile));
     input.apply(pipelineToRun, instanciatePTransform(pipelineToRun));
@@ -54,7 +60,9 @@ public class Benchmark {
     final long start = System.currentTimeMillis();
     pipeline.run();
     final long end = System.currentTimeMillis();
-    LOG.info("Pipeline {} ran in {} s on Beam {} runner", pipelineToRun, (end - start) / 1000, runnerName);
+    final long runtime = (end - start) / 1000;
+    LOG.info("Pipeline {} ran in {} s on Beam {} runner", pipelineToRun, runtime, runnerName);
+    BenchmarkHelper.logResultsToFile("beam", runnerName, pipelineToRun, inputFile, runtime, outputDir);
   }
 
   public interface Options extends PipelineOptions {
@@ -68,6 +76,11 @@ public class Benchmark {
     String getInputFile();
 
     void setInputFile(String value);
+
+    @Description("results output directory")
+    String getOutputDir();
+
+    void setOutputDir(String value);
   }
 
 }

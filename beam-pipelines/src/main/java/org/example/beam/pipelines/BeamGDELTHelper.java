@@ -6,8 +6,8 @@ import org.apache.beam.sdk.transforms.SimpleFunction;
 import org.apache.beam.sdk.values.KV;
 import org.apache.beam.sdk.values.PCollection;
 
-import static org.example.commons.GDELTHelper.getCountry;
-import static org.example.commons.GDELTHelper.getSubject;
+import static org.example.commons.BenchmarkHelper.getCountry;
+import static org.example.commons.BenchmarkHelper.getSubject;
 
 public class BeamGDELTHelper {
   public static PCollection<KV<String, String>> extractCountrySubjectKVPairs(PCollection<String> input){

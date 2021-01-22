@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 
 public class Benchmark {
 
-  private static final String INPUT_FILE = "/home/echauchot/projects/beamVsNative/input/GDELT.MASTERREDUCEDV2.TXT";
   private static final Logger LOG = LoggerFactory.getLogger(Benchmark.class);
 
   private static PTransform<PCollection<String>, ? extends PCollection<? extends Serializable>> instanciatePTransform(
@@ -42,8 +41,13 @@ public class Benchmark {
     if (Strings.isNullOrEmpty(pipelineToRun)){
       throw new RuntimeException("Please specify a valid pipeline among IdentityMap, SimpleGroupByKey or SimpleCombinePerKey");
     }
+    final String inputFile = pipelineOptions.getInputFile();
+    if (Strings.isNullOrEmpty(inputFile)){
+      throw new RuntimeException("Please specify a valid GDELT REDUCED input file");
+    }
+
     Pipeline pipeline = Pipeline.create(pipelineOptions);
-    PCollection<String> input = pipeline.apply("ReadFromGDELTFile", TextIO.read().from(INPUT_FILE));
+    PCollection<String> input = pipeline.apply("ReadFromGDELTFile", TextIO.read().from(inputFile));
     input.apply(pipelineToRun, instanciatePTransform(pipelineToRun));
     final String runnerName = pipelineOptions.getRunner().getSimpleName();
     LOG.info("Benchmark starting on Beam {} runner", runnerName);
@@ -59,6 +63,11 @@ public class Benchmark {
     String getPipeline();
 
     void setPipeline(String value);
+
+    @Description("GDELT REDUCED input file to read")
+    String getInputFile();
+
+    void setInputFile(String value);
   }
 
 }

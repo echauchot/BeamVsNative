@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 
 public class Benchmark {
 
-  private static final String INPUT_FILE = "/home/echauchot/projects/beamVsNative/input/GDELT.MASTERREDUCEDV2.TXT";
   private static final Logger LOG = LoggerFactory.getLogger(Benchmark.class);
 
   private static Operator<String> instanciateOperator(String operatorName) {
@@ -49,6 +48,10 @@ public class Benchmark {
     if (Strings.isNullOrEmpty(pipelineToRun)){
       throw new RuntimeException("Please specify a valid pipeline among IdentityMap, SimpleGroupByKey or SimpleCombinePerKey");
     }
+    final String inputFile = parameters.get("--inputFile");
+    if (Strings.isNullOrEmpty(inputFile)){
+      throw new RuntimeException("Please specify a valid GDELT REDUCED input file");
+    }
     final String master = Strings.isNullOrEmpty(parameters.get("--master")) ? "local[4]" : parameters.get("--master");
 
     final Operator<String> operator = instanciateOperator(pipelineToRun);
@@ -56,7 +59,7 @@ public class Benchmark {
     conf.setMaster(master);
     conf.setAppName("BeamVsNative");
     final JavaSparkContext sparkContext = new JavaSparkContext(conf);
-    final JavaRDD<String> inputRdd = sparkContext.textFile(INPUT_FILE);
+    final JavaRDD<String> inputRdd = sparkContext.textFile(inputFile);
     final AbstractJavaRDDLike<?, ?> resultRdd = operator.apply(inputRdd);
     LOG.info("Benchmark starting on Spark");
     final long start = System.currentTimeMillis();

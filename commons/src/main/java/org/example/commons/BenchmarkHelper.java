@@ -27,7 +27,7 @@ public class BenchmarkHelper {
    */
   public static void logResultsToFile(String benchType, String benchEngine, String benchPipeline, String inputFile, long runTime, String outputDir)
     throws IOException {
-    String header = "benchType;benchEngine;benchPipeline;inputFile;runTime";
+    String header = "benchType;benchEngine;benchPipeline;inputFile;runTime(s)";
     String result = String.format("%s;%s;%s;%s;%s", benchType, benchEngine, benchPipeline, inputFile, runTime);
 
     SimpleDateFormat sdfDate = new SimpleDateFormat("yyyyMMdd-HH:mm:ss");

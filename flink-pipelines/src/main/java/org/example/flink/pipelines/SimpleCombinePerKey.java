@@ -1,20 +1,33 @@
 package org.example.flink.pipelines;
 
+import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.functions.ReduceFunction;
 import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.functions.KeySelector;
-import org.apache.flink.api.java.operators.UnsortedGrouping;
-import scala.Tuple2;
+import org.apache.flink.api.java.operators.MapOperator;
+import org.apache.flink.api.java.tuple.Tuple2;
+import org.example.commons.BenchmarkHelper;
 
-public class SimpleCombinePerKey implements Operator{
+/**
+ * CombinePerKey that counts the occurences per key. It is lowest level.
+ */
+public class SimpleCombinePerKey implements Operator<String>{
 
-  @Override public void apply(DataSet inputDataSet) {
-    final DataSet<Tuple2<String, String>> kvDataSet = FlinkGDELTHelper.extractCountrySubjectKVPairs(inputDataSet);
-    // groupby is need in flink but happens behind the scenes with spark and beam
-    final UnsortedGrouping<Tuple2<String, String>> groupedDataSet = kvDataSet
-      .groupBy((KeySelector<Tuple2<String, String>, String>) tuple2 -> tuple2._1());
-    //TODO fix
-    groupedDataSet.reduce((ReduceFunction<Tuple2<String, String>>) (tuple2, t1) -> null);
-
+  @Override
+  public DataSet<Tuple2<String, Long>> apply(DataSet<String> inputDataSet) {
+    final MapOperator<String, Tuple2<String, Long>> kvDataSet = inputDataSet.map(new MapFunction<String, Tuple2<String, Long>>() {
+      // use anonymous class instead of lambda to provide type information
+      @Override public Tuple2<String, Long> map(String s) throws Exception {
+        return Tuple2.of(BenchmarkHelper.getCountry(s), 1L);
+      }
+    });
+    // groupby is needed for flink but happens behind the scenes for spark/beam
+    return kvDataSet.groupBy((KeySelector<Tuple2<String, Long>, String>) inputTuple -> inputTuple.f0)
+      // use anonymous class instead of lambda to provide type information
+      .reduce(new ReduceFunction<Tuple2<String, Long>>() {
+        @Override public Tuple2<String, Long> reduce(Tuple2<String, Long> t1, Tuple2<String, Long> t2) throws Exception {
+          return Tuple2.of(t1.f0, t1.f1 + t2.f1);
+        }
+      });
   }
 }

@@ -3,6 +3,10 @@ package org.example.spark.pipelines;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.Function;
 
+/**
+ * Lowest level identity map
+ */
+
 public class IdentityMap implements Operator<String> {
 
   @Override

@@ -5,6 +5,10 @@ import org.apache.beam.sdk.transforms.PTransform;
 import org.apache.beam.sdk.transforms.ParDo;
 import org.apache.beam.sdk.values.PCollection;
 
+/**
+ * Lowest level identity map
+ */
+
 public class IdentityMap extends PTransform<PCollection<String>, PCollection<String>> {
 
   @Override

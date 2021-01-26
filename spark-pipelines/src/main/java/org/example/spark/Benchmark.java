@@ -70,6 +70,7 @@ public class Benchmark {
     final AbstractJavaRDDLike<?, ?> resultRdd = operator.apply(inputRdd);
     LOG.info("Benchmark starting on Spark");
     final long start = System.currentTimeMillis();
+    // thinnest action to trigger the pipeline run
     resultRdd.foreach(ignored ->{});
     final long end = System.currentTimeMillis();
     sparkContext.stop();

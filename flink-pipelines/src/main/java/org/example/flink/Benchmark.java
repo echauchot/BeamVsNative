@@ -1,9 +1,12 @@
 package org.example.flink;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.flink.api.common.io.OutputFormat;
 import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
+import org.apache.flink.configuration.Configuration;
 import org.apache.flink.shaded.guava18.com.google.common.base.Strings;
 import org.example.commons.BenchmarkHelper;
 import org.example.flink.pipelines.IdentityMap;
@@ -60,7 +63,9 @@ public class Benchmark {
 
     final ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();
     DataSet<String> inputDataStream = env.readTextFile(inputFile);
-    operator.apply(inputDataStream);
+    final DataSet<?> resultDataSet = operator.apply(inputDataStream);
+    resultDataSet.output(new NoOpOutputFormat());
+
     LOG.info("Benchmark starting on Flink");
     final long start = System.currentTimeMillis();
     env.execute();
@@ -69,5 +74,23 @@ public class Benchmark {
     LOG.info("Pipeline {} ran in {} s on Flink", pipelineToRun, runtime);
     BenchmarkHelper.logResultsToFile("native", "spark", pipelineToRun, inputFile, runtime, outputDir);
   }
+  private static class NoOpOutputFormat implements OutputFormat{
+    @Override
+    public void configure(Configuration configuration) {
 
+    }
+
+    @Override public void open(int i, int i1) throws IOException {
+
+    }
+
+    @Override public void writeRecord(Object o) throws IOException {
+
+    }
+
+    @Override public void close() throws IOException {
+
+    }
+
+  }
 }

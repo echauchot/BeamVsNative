@@ -19,14 +19,14 @@ public class SimpleGroupByKey implements Operator<String> {
   @Override public DataSet<Tuple2<String, String>> apply(DataSet<String> inputDataSet) {
     final DataSet<Tuple2<String, String>> kvDataSet = inputDataSet
       .map(new MapFunction<String, Tuple2<String, String>>() {
-        @Override public Tuple2<String, String> map(String value) throws Exception {
-          return Tuple2.of(BenchmarkHelper.getCountry(value), value);
+        @Override public Tuple2<String, String> map(String element) throws Exception {
+          return Tuple2.of(BenchmarkHelper.getCountry(element), element);
         }
       });
     final UnsortedGrouping<Tuple2<String, String>> unsortedGrouping = kvDataSet
       .groupBy(new KeySelector<Tuple2<String, String>, String>() {
-        @Override public String getKey(Tuple2<String, String> value) throws Exception {
-          return value.f0;
+        @Override public String getKey(Tuple2<String, String> element) throws Exception {
+          return element.f0;
         }
       });
     // in flink groupBy does not provide a DataSet a transformation needs to be applied to it to get the DataSet, so apply the simplest and more efficent one

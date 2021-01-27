@@ -58,7 +58,12 @@ public class Benchmark {
     final String runnerName = pipelineOptions.getRunner().getSimpleName();
     LOG.info("Benchmark starting on Beam {} runner", runnerName);
     final long start = System.currentTimeMillis();
-    pipeline.run().waitUntilFinish();
+    //for spark pipeline.run() is not blocking
+    if ("SparkRuner".equals(runnerName)) {
+      pipeline.run().waitUntilFinish();
+    } else {
+      pipeline.run();
+    }
     final long end = System.currentTimeMillis();
     final long runtime = (end - start) / 1000;
     LOG.info("Pipeline {} ran in {} s on Beam {} runner", pipelineToRun, runtime, runnerName);

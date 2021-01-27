@@ -72,7 +72,7 @@ public class Benchmark {
     final long end = System.currentTimeMillis();
     final long runtime = (end - start) / 1000;
     LOG.info("Pipeline {} ran in {} s on Flink", pipelineToRun, runtime);
-    BenchmarkHelper.logResultsToFile("native", "spark", pipelineToRun, inputFile, runtime, outputDir);
+    BenchmarkHelper.logResultsToFile("native", "flink", pipelineToRun, inputFile, runtime, outputDir);
   }
   private static class NoOpOutputFormat implements OutputFormat{
     @Override

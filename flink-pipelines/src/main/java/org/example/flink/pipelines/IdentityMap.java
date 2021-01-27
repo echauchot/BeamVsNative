@@ -9,7 +9,7 @@ import org.apache.flink.api.java.DataSet;
 public class IdentityMap implements Operator<String> {
 
   @Override
-  public DataSet<?> apply(DataSet<String> inputDataSet) {
+  public DataSet<String> apply(DataSet<String> inputDataSet) {
     return inputDataSet.map((MapFunction<String, String>) s -> s);
   }
 }

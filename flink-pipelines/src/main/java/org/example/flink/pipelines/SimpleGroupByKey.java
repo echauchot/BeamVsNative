@@ -17,7 +17,7 @@ import scala.Tuple2;
 public class SimpleGroupByKey implements Operator<String>{
 
   @Override
-  public DataSet<?> apply(DataSet<String> inputDataSet) {
+  public DataSet<Tuple2<String, String>> apply(DataSet<String> inputDataSet) {
     final DataSet<Tuple2<String, String>> kvDataSet = inputDataSet.map(
       (MapFunction<String, Tuple2<String, String>>) s -> Tuple2.apply(BenchmarkHelper.getCountry(s), s));
     final UnsortedGrouping<Tuple2<String, String>> unsortedGrouping = kvDataSet

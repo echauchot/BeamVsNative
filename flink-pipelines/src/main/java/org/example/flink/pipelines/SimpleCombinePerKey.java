@@ -22,7 +22,11 @@ public class SimpleCombinePerKey implements Operator<String>{
       }
     });
     // groupby is needed for flink but happens behind the scenes for spark/beam
-    return kvDataSet.groupBy((KeySelector<Tuple2<String, Long>, String>) inputTuple -> inputTuple.f0)
+    return kvDataSet.groupBy(new KeySelector<Tuple2<String, Long>, String>() {
+      @Override public String getKey(Tuple2<String, Long> tuple2) throws Exception {
+        return tuple2.f0;
+      }
+    })
       // use anonymous class instead of lambda to provide type information
       .reduce(new ReduceFunction<Tuple2<String, Long>>() {
         @Override public Tuple2<String, Long> reduce(Tuple2<String, Long> t1, Tuple2<String, Long> t2) throws Exception {

@@ -10,6 +10,10 @@ public class IdentityMap implements Operator<String> {
 
   @Override
   public DataSet<String> apply(DataSet<String> inputDataSet) {
-    return inputDataSet.map((MapFunction<String, String>) s -> s);
+    return inputDataSet.map(new MapFunction<String, String>() {
+      @Override public String map(String element) throws Exception {
+        return element;
+      }
+    });
   }
 }

@@ -4,7 +4,6 @@ import com.google.common.base.Strings;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.spark.SparkConf;
-import org.apache.spark.SparkEnv;
 import org.apache.spark.api.java.AbstractJavaRDDLike;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;

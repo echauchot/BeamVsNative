@@ -56,8 +56,6 @@ public class Benchmark {
       throw new RuntimeException("Please specify a valid results output directory");
     }
 
-    final String master = Strings.isNullOrEmpty(parameters.get("--master")) ? "local[4]" : parameters.get("--master");
-
     final Operator<String> operator = instanciateOperator(pipelineToRun);
 
     final ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();

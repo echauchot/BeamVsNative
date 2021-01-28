@@ -14,12 +14,14 @@ public class BenchmarkHelper {
    */
   public static String getCountry(String row) {
     String[] fields = row.split("\\t+");
-    return fields[1];
+    final String field = fields[1];
+    return field == null || field.isEmpty() ? "NA" : field;
   }
 
   public static String getSubject(String row) {
     String[] fields = row.split("\\t+");
-    return fields[3];
+    final String field = fields[3];
+    return field == null || field.isEmpty() ? "NA" : field;
   }
 
   /*

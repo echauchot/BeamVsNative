@@ -54,12 +54,12 @@ public class Benchmark {
 
     Pipeline pipeline = Pipeline.create(pipelineOptions);
     PCollection<String> input = pipeline.apply("ReadFromGDELTFile", TextIO.read().from(inputFile));
-    input.apply(pipelineToRun, instanciatePTransform(pipelineToRun));
+      input.apply(pipelineToRun, instanciatePTransform(pipelineToRun));
+
     final String runnerName = pipelineOptions.getRunner().getSimpleName();
     LOG.info("Benchmark starting on Beam {} runner", runnerName);
     final long start = System.currentTimeMillis();
     pipeline.run().waitUntilFinish();
-    //TODO fix flink beam GBK
     final long end = System.currentTimeMillis();
     final long runtime = (end - start) / 1000;
     LOG.info("Pipeline {} ran in {} s on Beam {} runner", pipelineToRun, runtime, runnerName);

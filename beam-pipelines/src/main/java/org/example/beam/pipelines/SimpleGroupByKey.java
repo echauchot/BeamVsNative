@@ -23,6 +23,16 @@ public class SimpleGroupByKey extends
         context.output(KV.of(BenchmarkHelper.getCountry(context.element()), context.element()));
       }
     }));
-    return kvPCollection.apply(GroupByKey.create());
+    final PCollection<KV<String, Iterable<String>>> res = kvPCollection
+      .apply(GroupByKey.create())
+      // not needed but as flink need to apply a reduce after groupby to get a dataset, apply
+      // the simplest post processing after groupby to be comparable with flink
+      .apply(ParDo.of(new DoFn<KV<String, Iterable<String>>, KV<String, Iterable<String>>>() {
+        @ProcessElement
+        public void processELements(ProcessContext context){
+          context.output(context.element());
+        }
+      }));
+    return res;
   }
 }

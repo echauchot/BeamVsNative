@@ -58,11 +58,14 @@ public class Benchmark {
       throw new RuntimeException("Please specify a valid results output directory");
     }
 
-    final String master = Strings.isNullOrEmpty(parameters.get("--master")) ? "local[4]" : parameters.get("--master");
+    final String sparkMaster = parameters.get("--sparkMaster");
+    if (Strings.isNullOrEmpty(sparkMaster)){
+      throw new RuntimeException("Please specify a valid sparkMaster");
+    }
 
     final Operator<String> operator = instanciateOperator(pipelineToRun);
     SparkConf conf = new SparkConf();
-    conf.setMaster(master);
+    conf.setMaster(sparkMaster);
     conf.setAppName("BeamVsNative");
     final JavaSparkContext sparkContext = new JavaSparkContext(conf);
     final JavaRDD<String> inputRdd = sparkContext.textFile(inputFile);

@@ -59,9 +59,24 @@ public class Benchmark {
       throw new RuntimeException("Please specify a valid results output directory");
     }
 
-    final Operator<String> operator = instanciateOperator(pipelineToRun);
+    final String flinkMaster = parameters.get("--flinkMaster");
+    if (Strings.isNullOrEmpty(flinkMaster)){
+      throw new RuntimeException("Please specify a valid flinkMaster");
+    }
 
-    final ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();
+    final String parallelism = parameters.get("--parallelism");
+    if (Strings.isNullOrEmpty(parallelism)){
+      throw new RuntimeException("Please specify a valid parallelism");
+    }
+
+    final Operator<String> operator = instanciateOperator(pipelineToRun);
+    ExecutionEnvironment env;
+    if ("[local]".equals(flinkMaster)){
+      env = ExecutionEnvironment.createLocalEnvironment();
+    } else { // use [auto] that works for cluster execution as well
+      env = ExecutionEnvironment.getExecutionEnvironment();
+    }
+    env.setParallelism(Integer.parseInt(parallelism));
     DataSet<String> inputDataStream = env.readTextFile(inputFile);
     final DataSet<?> resultDataSet = operator.apply(inputDataStream);
     resultDataSet.output(new NoOpOutputFormat());

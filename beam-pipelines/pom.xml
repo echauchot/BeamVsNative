@@ -87,6 +87,10 @@
           <scope>runtime</scope>
         </dependency>
         <dependency>
+          <groupId>org.apache.spark</groupId>
+          <artifactId>spark-sql_2.12</artifactId>
+        </dependency>
+        <dependency>
           <groupId>com.fasterxml.jackson.core</groupId>
           <artifactId>jackson-databind</artifactId>
           <scope>runtime</scope>

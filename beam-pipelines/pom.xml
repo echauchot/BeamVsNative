@@ -31,13 +31,6 @@
     </dependency>
 
     <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>2.10.2</version>
-    </dependency>
-
-
-    <dependency>
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest-all</artifactId>
       <scope>test</scope>
@@ -80,6 +73,12 @@
           <groupId>org.apache.spark</groupId>
           <artifactId>spark-core_2.12</artifactId>
           <scope>runtime</scope>
+          <exclusions>
+            <exclusion>
+              <groupId>com.fasterxml.jackson.module</groupId>
+              <artifactId>jackson-module-scala_2.12</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
         <dependency>
           <groupId>org.apache.spark</groupId>
@@ -91,8 +90,9 @@
           <artifactId>spark-sql_2.12</artifactId>
         </dependency>
         <dependency>
-          <groupId>com.fasterxml.jackson.core</groupId>
-          <artifactId>jackson-databind</artifactId>
+          <groupId>com.fasterxml.jackson.module</groupId>
+          <artifactId>jackson-module-scala_2.12</artifactId>
+          <version>${jackson.version}</version>
           <scope>runtime</scope>
         </dependency>
       </dependencies>
@@ -112,11 +112,23 @@
           <artifactId>spark-sql_2.12</artifactId>
           <version>${spark3.version}</version>
           <scope>runtime</scope>
+          <exclusions>
+            <exclusion>
+              <groupId>com.fasterxml.jackson.module</groupId>
+              <artifactId>jackson-module-scala_2.12</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
         <dependency>
           <groupId>org.apache.spark</groupId>
           <artifactId>spark-streaming_2.12</artifactId>
           <version>${spark3.version}</version>
+          <scope>runtime</scope>
+        </dependency>
+        <dependency>
+          <groupId>com.fasterxml.jackson.module</groupId>
+          <artifactId>jackson-module-scala_2.12</artifactId>
+          <version>${jackson.version}</version>
           <scope>runtime</scope>
         </dependency>
         <dependency>

@@ -8,7 +8,7 @@ import org.apache.beam.sdk.options.PipelineOptions;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.apache.beam.sdk.transforms.PTransform;
 import org.apache.beam.sdk.values.PCollection;
-import org.apache.beam.vendor.grpc.v1p26p0.com.google.common.base.Strings;
+import org.apache.beam.vendor.grpc.v1p36p0.com.google.common.base.Strings;
 import org.example.beam.pipelines.IdentityMap;
 import org.example.beam.pipelines.SimpleCombinePerKey;
 import org.example.beam.pipelines.SimpleGroupByKey;
